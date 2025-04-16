@@ -27,132 +27,135 @@ class DesktopModeScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Row(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        mainAxisAlignment: MainAxisAlignment.start,
-        children: [
-          const SizedBox(width: 8),
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.start,
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const SizedBox(height: 8),
-                _buildProfile(width, height),
-                const SizedBox(height: 22),
-                _buildSkill(),
-                const SizedBox(height: 22),
-                _buildExperience(),
-                const SizedBox(height: 8),
-              ],
+    return ListView.builder(
+      itemCount: 1,
+      itemBuilder: (context, index) {
+        return Row(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            const SizedBox(width: 8),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const SizedBox(height: 8),
+                  _buildProfile(width, height),
+                  const SizedBox(height: 22),
+                  _buildSkill(),
+                  const SizedBox(height: 22),
+                  _buildExperience(),
+                  const SizedBox(height: 8),
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 12),
-          Expanded(
-            child: Column(
-              children: [
-                const SizedBox(height: 8),
-                _buildSocialAccount(height, width, context),
-                const SizedBox(height: 22),
-                _buildFlutterMap(height),
-                const SizedBox(height: 12),
-                ButtonNeo(
-                  color: greenClr,
-                  child: Center(child: TextNeo(text: "Open my project")),
-                ),
-                const SizedBox(height: 22),
-                ButtonNeo(
-                  height: height * 0.34,
-                  color: Colors.white,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      RiveBirbWidget(width: width, height: height),
-                      const SizedBox(width: 8),
-                      Expanded(
-                        child: CardBorderNeo(
-                          color: redClr,
-                          child: Column(
-                            spacing: 4,
-                            children: [
-                              Row(
-                                children: [
-                                  CardBorderNeo(
-                                    color: Colors.white,
-                                    child: Icon(
-                                      Icons.email_sharp,
-                                      color: secondaryClr,
-                                    ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: CardBorderNeo(
+            const SizedBox(width: 12),
+            Expanded(
+              child: Column(
+                children: [
+                  const SizedBox(height: 8),
+                  _buildSocialAccount(height, width, context),
+                  const SizedBox(height: 22),
+                  _buildFlutterMap(height),
+                  const SizedBox(height: 12),
+                  ButtonNeo(
+                    color: greenClr,
+                    child: Center(child: TextNeo(text: "Open my project")),
+                  ),
+                  const SizedBox(height: 22),
+                  ButtonNeo(
+                    height: height * 0.34,
+                    color: Colors.white,
+                    child: Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        RiveBirbWidget(width: width, height: height),
+                        const SizedBox(width: 8),
+                        Expanded(
+                          child: CardBorderNeo(
+                            color: redClr,
+                            child: Column(
+                              spacing: 4,
+                              children: [
+                                Row(
+                                  children: [
+                                    CardBorderNeo(
                                       color: Colors.white,
-                                      child: TextNeo(
-                                        text: "ifqygazhar@gmail.com",
+                                      child: Icon(
+                                        Icons.email_sharp,
+                                        color: secondaryClr,
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
-                              Row(
-                                children: [
-                                  CardBorderNeo(
-                                    color: Colors.white,
-                                    child: Icon(
-                                      Icons.collections_bookmark,
-                                      color: secondaryClr,
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                      child: CardBorderNeo(
+                                        color: Colors.white,
+                                        child: TextNeo(
+                                          text: "ifqygazhar@gmail.com",
+                                        ),
+                                      ),
                                     ),
-                                  ),
-                                  const SizedBox(width: 4),
-                                  Expanded(
-                                    child: GestureDetector(
-                                      onTap: () {
-                                        windowOpen(
-                                          'https://drive.google.com/file/d/1y_er4lrQvT-8j0OaP3z_rWk5eBYChv6h/view?usp=drive_link',
-                                          '_blank',
-                                          'noopener,noreferrer',
-                                        );
-                                      },
-                                      child: MouseRegion(
-                                        cursor: SystemMouseCursors.click,
-                                        child: CardBorderNeo(
-                                          width: double.infinity,
-                                          color: greenClr,
-                                          child: TextNeo(
-                                            text: "CV Download Here",
+                                  ],
+                                ),
+                                Row(
+                                  children: [
+                                    CardBorderNeo(
+                                      color: Colors.white,
+                                      child: Icon(
+                                        Icons.collections_bookmark,
+                                        color: secondaryClr,
+                                      ),
+                                    ),
+                                    const SizedBox(width: 4),
+                                    Expanded(
+                                      child: GestureDetector(
+                                        onTap: () {
+                                          windowOpen(
+                                            'https://drive.google.com/file/d/1y_er4lrQvT-8j0OaP3z_rWk5eBYChv6h/view?usp=drive_link',
+                                            '_blank',
+                                            'noopener,noreferrer',
+                                          );
+                                        },
+                                        child: MouseRegion(
+                                          cursor: SystemMouseCursors.click,
+                                          child: CardBorderNeo(
+                                            width: double.infinity,
+                                            color: greenClr,
+                                            child: TextNeo(
+                                              text: "CV Download Here",
+                                            ),
                                           ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
-                              ),
+                                  ],
+                                ),
 
-                              CardBorderNeo(
-                                width: double.infinity,
-                                color: Colors.white,
-                                child: Center(
-                                  child: TextNeo(
-                                    text: "Made With 💙 by Ifqy Gifha Azhar",
+                                CardBorderNeo(
+                                  width: double.infinity,
+                                  color: Colors.white,
+                                  child: Center(
+                                    child: TextNeo(
+                                      text: "Made With 💙 by Ifqy Gifha Azhar",
+                                    ),
                                   ),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-          const SizedBox(width: 8),
-        ],
-      ),
+            const SizedBox(width: 8),
+          ],
+        );
+      },
     );
   }
 
@@ -260,12 +263,11 @@ class DesktopModeScreen extends StatelessWidget {
         children: [
           SizedBox(
             height: 300,
-            child: SingleChildScrollView(
-              child: Column(
-                children: List.generate(5, (index) {
-                  return _buildItemExperience();
-                }),
-              ),
+            child: ListView.builder(
+              itemCount: 4,
+              itemBuilder: (context, index) {
+                return _buildItemExperience();
+              },
             ),
           ),
           const SizedBox(height: 8),
