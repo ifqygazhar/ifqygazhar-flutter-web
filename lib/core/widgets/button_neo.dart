@@ -13,6 +13,8 @@ class ButtonNeo extends StatefulWidget {
   final double? height;
   final Color? borderColor;
   final bool isMouse;
+  final double shadowBottomPosition;
+  final double shadowRightPosition;
 
   const ButtonNeo({
     super.key,
@@ -27,6 +29,8 @@ class ButtonNeo extends StatefulWidget {
     this.height,
     this.borderColor,
     this.isMouse = true,
+    this.shadowBottomPosition = -8,
+    this.shadowRightPosition = -5,
   });
 
   @override
@@ -106,8 +110,8 @@ class _ButtonNeoState extends State<ButtonNeo>
             Positioned(
               top: 5,
               left: 4,
-              right: -5,
-              bottom: -5,
+              right: widget.shadowRightPosition,
+              bottom: widget.shadowBottomPosition,
               child: Container(
                 width: widget.width,
                 height: widget.height,

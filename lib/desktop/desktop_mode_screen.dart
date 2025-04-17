@@ -1,20 +1,17 @@
-import 'dart:js_interop' as js;
-
+import 'dart:ui';
 import 'package:flutter/material.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:ifqygazhar/core/constant/list_skill.dart';
 import 'package:ifqygazhar/core/style/colors.dart';
+import 'package:ifqygazhar/core/utils/open_url.dart';
 import 'package:ifqygazhar/core/widgets/button_neo.dart';
 import 'package:ifqygazhar/core/widgets/card_border_neo.dart';
 import 'package:ifqygazhar/core/widgets/text_neo.dart';
 import 'package:ifqygazhar/core/widgets/text_rich_neo.dart';
 import 'package:ifqygazhar/widgets/rive_bird.dart';
 import 'package:latlong2/latlong.dart';
-
-@js.JS('window.open')
-external void windowOpen(String url, String target, String? features);
 
 class DesktopModeScreen extends StatelessWidget {
   final double width;
@@ -45,7 +42,7 @@ class DesktopModeScreen extends StatelessWidget {
                   const SizedBox(height: 22),
                   _buildSkill(),
                   const SizedBox(height: 22),
-                  _buildExperience(),
+                  _buildExperience(context),
                   const SizedBox(height: 8),
                 ],
               ),
@@ -59,9 +56,15 @@ class DesktopModeScreen extends StatelessWidget {
                   const SizedBox(height: 22),
                   _buildFlutterMap(height),
                   const SizedBox(height: 12),
-                  ButtonNeo(
-                    color: greenClr,
-                    child: Center(child: TextNeo(text: "Open my project")),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: ButtonNeo(
+                      color: greenClr,
+                      onTap: () {
+                        _buildBlurPopUp(context, isExperience: false);
+                      },
+                      child: Center(child: TextNeo(text: "Open my project")),
+                    ),
                   ),
                   const SizedBox(height: 22),
                   ButtonNeo(
@@ -132,13 +135,16 @@ class DesktopModeScreen extends StatelessWidget {
                                     ),
                                   ],
                                 ),
-
-                                CardBorderNeo(
-                                  width: double.infinity,
-                                  color: Colors.white,
-                                  child: Center(
-                                    child: TextNeo(
-                                      text: "Made With 💙 by Ifqy Gifha Azhar",
+                                const Spacer(),
+                                Expanded(
+                                  child: CardBorderNeo(
+                                    color: Colors.white,
+                                    child: Center(
+                                      child: TextNeo(
+                                        text:
+                                            "Made With 💙 by Ifqy Gifha Azhar",
+                                        fontSize: height * 0.018,
+                                      ),
                                     ),
                                   ),
                                 ),
@@ -256,7 +262,7 @@ class DesktopModeScreen extends StatelessWidget {
     );
   }
 
-  ButtonNeo _buildExperience() {
+  ButtonNeo _buildExperience(BuildContext context) {
     return ButtonNeo(
       color: const Color(0xFFFFFFFF),
       child: Column(
@@ -275,13 +281,162 @@ class DesktopModeScreen extends StatelessWidget {
             cursor: SystemMouseCursors.click,
             child: ButtonNeo(
               width: double.infinity,
+              shadowBottomPosition: -5,
               isMouse: false,
               color: greenClr,
+              onTap: () {
+                _buildBlurPopUp(context);
+              },
               child: Center(child: TextNeo(text: "Show More")),
             ),
           ),
         ],
       ),
+    );
+  }
+
+  CardBorderNeo _buildSelfProject(BuildContext context) {
+    return CardBorderNeo(
+      color: whiteClr,
+      margin: const EdgeInsets.only(bottom: 8),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          GestureDetector(
+            onTap: () {
+              showDialog(
+                context: context,
+                builder:
+                    (context) => Dialog(
+                      backgroundColor: Colors.transparent,
+                      child: Image.asset(
+                        'assets/img/banner.png',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+              );
+            },
+            child: MouseRegion(
+              cursor: SystemMouseCursors.click,
+              child: SizedBox(
+                height: 400, // Set fixed height to control image size
+                width: double.infinity,
+                child: Image.asset('assets/img/banner.png', fit: BoxFit.cover),
+              ),
+            ),
+          ),
+          Row(
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  TextNeo(
+                    text: "Flutter Developer",
+                    fontSize: 16,
+                    fontWeight: FontWeight.bold,
+                  ),
+                  MouseRegion(
+                    cursor: SystemMouseCursors.click,
+                    child: ButtonNeo(
+                      shadowBottomPosition: -4,
+                      shadowRightPosition: -4,
+                      color: greenClr,
+                      onTap: () {},
+                      child: Row(
+                        children: [
+                          SvgPicture.asset('assets/icon/github.svg', width: 20),
+                          const SizedBox(width: 4),
+                          TextNeo(text: "Open Project", fontSize: 12),
+                        ],
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+              const Spacer(),
+              Row(
+                children: List.generate(4, (index) {
+                  return CardBorderNeo(
+                    color: blackClr,
+                    borderColor: Colors.transparent,
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.only(right: 8),
+                    child: SvgPicture.asset('assets/icon/flutter.svg'),
+                  );
+                }),
+              ),
+            ],
+          ),
+          const SizedBox(height: 4),
+          TextNeo(
+            text:
+                "lorem ipsum dolor sit amet consectetur adipisicing elit. Voluptate, quibusdam",
+          ),
+        ],
+      ),
+    );
+  }
+
+  Future<dynamic> _buildBlurPopUp(
+    BuildContext context, {
+    bool isExperience = true,
+  }) {
+    return showDialog(
+      context: context,
+      barrierColor: Colors.black38, // More transparent for blur effect
+      builder: (BuildContext context) {
+        return BackdropFilter(
+          filter: ImageFilter.blur(sigmaX: 5, sigmaY: 5),
+          child: Dialog(
+            backgroundColor: Colors.transparent,
+            elevation: 0,
+            child: ButtonNeo(
+              color: Colors.white,
+              width: width * 0.8,
+              height: height * 0.9,
+              child: Column(
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      TextNeo(
+                        text: isExperience ? "My Experience" : "Self Project",
+                        fontSize: 18,
+                        fontWeight: FontWeight.bold,
+                      ),
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.of(context).pop();
+                        },
+                        child: MouseRegion(
+                          cursor: SystemMouseCursors.click,
+                          child: CardBorderNeo(
+                            color: redClr,
+                            child: Icon(Icons.close, color: whiteClr),
+                          ),
+                        ),
+                      ),
+                    ],
+                  ),
+                  const SizedBox(height: 16),
+                  Expanded(
+                    child: ListView.builder(
+                      itemCount: 10,
+                      itemBuilder: (context, index) {
+                        if (isExperience) {
+                          return _buildItemExperience();
+                        } else {
+                          return _buildSelfProject(context);
+                        }
+                      },
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        );
+      },
     );
   }
 
@@ -307,15 +462,15 @@ class DesktopModeScreen extends StatelessWidget {
                 ],
               ),
               const Spacer(),
-              Container(
-                alignment: Alignment.center,
-                padding: const EdgeInsets.all(8),
-                margin: const EdgeInsets.only(right: 8),
-                decoration: BoxDecoration(
-                  color: secondaryClr,
-                  borderRadius: BorderRadius.circular(4),
-                ),
-                child: SvgPicture.asset('assets/icon/flutter.svg'),
+              Row(
+                children: List.generate(4, (index) {
+                  return CardBorderNeo(
+                    color: whiteClr,
+                    padding: const EdgeInsets.all(8),
+                    margin: const EdgeInsets.only(right: 8),
+                    child: SvgPicture.asset('assets/icon/flutter.svg'),
+                  );
+                }),
               ),
             ],
           ),
@@ -340,15 +495,17 @@ class DesktopModeScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.center,
           crossAxisAlignment: CrossAxisAlignment.center,
           children: List.generate(9, (index) {
-            return Container(
-              alignment: Alignment.center,
+            return CardBorderNeo(
+              color: Colors.white,
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
               margin: EdgeInsets.only(left: index == 0 ? 8 : 0, right: 24),
-              decoration: BoxDecoration(
-                color: secondaryClr,
-                borderRadius: BorderRadius.circular(4),
+              child: SvgPicture.asset(
+                iconSkill[index],
+                colorFilter:
+                    index == 8
+                        ? ColorFilter.mode(Colors.black, BlendMode.srcIn)
+                        : null,
               ),
-              child: SvgPicture.asset(iconSkill[index]),
             );
           }),
         ),
@@ -365,7 +522,7 @@ class DesktopModeScreen extends StatelessWidget {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           CardBorderNeo(
-            width: width * 0.165,
+            width: width * 0.158,
             height: height * 0.32,
             color: whiteClr,
             padding: const EdgeInsets.all(0),
@@ -373,63 +530,68 @@ class DesktopModeScreen extends StatelessWidget {
               borderRadius: BorderRadius.circular(5),
               child: Image.asset('assets/img/profile.jpeg', fit: BoxFit.cover),
             ),
-            // child: TextNeo(text: "Photo in here", fontSize: width * 0.016),
           ),
           const SizedBox(width: 8),
-          Column(
-            mainAxisAlignment: MainAxisAlignment.start,
-            crossAxisAlignment: CrossAxisAlignment.start,
-            spacing: 8,
-            children: [
-              TextRichNeo(
+          Expanded(
+            child: CardBorderNeo(
+              color: whiteClr,
+              height: height * 0.32,
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                spacing: 8,
                 children: [
-                  TextSpan(
-                    text: 'Hi, My name is ',
-                    style: GoogleFonts.rubik(
-                      fontSize: width * 0.016,
-                      fontWeight: FontWeight.w500,
-                    ),
+                  TextRichNeo(
+                    children: [
+                      TextSpan(
+                        text: 'Hi, My name is ',
+                        style: GoogleFonts.rubik(
+                          fontSize: width * 0.016,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: 'Ifqy Gifha Azhar 👋',
+                        style: GoogleFonts.rubik(
+                          fontSize: width * 0.016,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
                   ),
-                  TextSpan(
-                    text: 'Ifqy Gifha Azhar 👋',
-                    style: GoogleFonts.rubik(
-                      fontSize: width * 0.016,
-                      fontWeight: FontWeight.bold,
-                    ),
+                  TextNeo(
+                    text: "Im software developer specialy in",
+                    fontSize: width * 0.011,
+                  ),
+                  TextRichNeo(
+                    children: [
+                      TextSpan(
+                        text: 'Mobile Development project with ',
+                        style: GoogleFonts.rubik(
+                          fontSize: width * 0.011,
+                          fontWeight: FontWeight.w500,
+                        ),
+                      ),
+                      TextSpan(
+                        text: '1+ year experience',
+                        style: GoogleFonts.rubik(
+                          fontSize: width * 0.011,
+                          fontWeight: FontWeight.bold,
+                        ),
+                      ),
+                    ],
+                  ),
+                  TextNeo(
+                    text: "Im using flutter and kotlin for mobile development",
+                    fontSize: width * 0.011,
+                  ),
+                  TextNeo(
+                    text: "project, but for most used is flutter.",
+                    fontSize: width * 0.011,
                   ),
                 ],
               ),
-              TextNeo(
-                text: "Im software developer specialy in",
-                fontSize: width * 0.011,
-              ),
-              TextRichNeo(
-                children: [
-                  TextSpan(
-                    text: 'Mobile Development project with ',
-                    style: GoogleFonts.rubik(
-                      fontSize: width * 0.011,
-                      fontWeight: FontWeight.w500,
-                    ),
-                  ),
-                  TextSpan(
-                    text: '1+ year experience',
-                    style: GoogleFonts.rubik(
-                      fontSize: width * 0.011,
-                      fontWeight: FontWeight.bold,
-                    ),
-                  ),
-                ],
-              ),
-              TextNeo(
-                text: "Im using flutter and kotlin for mobile development",
-                fontSize: width * 0.011,
-              ),
-              TextNeo(
-                text: "project, but for most used is flutter.",
-                fontSize: width * 0.011,
-              ),
-            ],
+            ),
           ),
         ],
       ),
