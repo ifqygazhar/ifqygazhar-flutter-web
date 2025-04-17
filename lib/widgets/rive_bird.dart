@@ -6,10 +6,16 @@ import 'package:rive/rive.dart';
 import 'package:flutter/services.dart';
 
 class RiveBirbWidget extends StatefulWidget {
-  const RiveBirbWidget({super.key, required this.width, required this.height});
-
   final double width;
   final double height;
+  final bool isMobile;
+
+  const RiveBirbWidget({
+    super.key,
+    required this.width,
+    required this.height,
+    required this.isMobile,
+  });
 
   @override
   State<RiveBirbWidget> createState() => _RiveBirbWidgetState();
@@ -67,7 +73,7 @@ class _RiveBirbWidgetState extends State<RiveBirbWidget> {
           child: CardBorderNeo(
             color: blueClr,
             child: SizedBox(
-              width: widget.width * 0.15,
+              width: widget.isMobile ? widget.width * 0.3 : widget.width * 0.15,
               height: widget.height * 0.356,
               child: MouseRegion(
                 cursor: SystemMouseCursors.click,
@@ -87,7 +93,7 @@ class _RiveBirbWidgetState extends State<RiveBirbWidget> {
           child: CardBorderNeo(
             color: Colors.white,
             child: Padding(
-              padding: const EdgeInsets.all(4),
+              padding: EdgeInsets.all(widget.isMobile ? 0 : 4),
               child: TextNeo(text: "Click Me!"),
             ),
           ),

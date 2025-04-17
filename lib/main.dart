@@ -3,6 +3,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:ifqygazhar/core/style/colors.dart';
 import 'package:ifqygazhar/desktop/desktop_mode_screen.dart';
+import 'package:ifqygazhar/mobile/mobile_mode_screen.dart';
 import 'package:rive/rive.dart' as rive;
 
 void main() async {
@@ -42,7 +43,7 @@ class MyHome extends StatelessWidget {
             if (width > 600) {
               return DesktopModeScreen(width: width, height: height);
             } else {
-              return Text("Mobile");
+              return MobileModeScreen(width: width, height: height);
             }
           },
         ),
