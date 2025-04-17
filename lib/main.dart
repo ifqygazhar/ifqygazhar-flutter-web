@@ -5,9 +5,11 @@ import 'package:ifqygazhar/core/style/colors.dart';
 import 'package:ifqygazhar/desktop/desktop_mode_screen.dart';
 import 'package:ifqygazhar/mobile/mobile_mode_screen.dart';
 import 'package:rive/rive.dart' as rive;
+import 'package:seo/seo.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   await rive.RiveFile.initialize();
   runApp(const MyApp());
 }
@@ -17,10 +19,44 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'ifqygazhar portfolio website',
-      debugShowCheckedModeBanner: false,
-      home: const MyHome(),
+    return SeoController(
+      enabled: true,
+      tree: WidgetTree(context: context),
+      child: MaterialApp(
+        title: 'ifqygazhar | flutter developer',
+        debugShowCheckedModeBanner: false,
+        home: Seo.head(
+          tags: [
+            MetaTag(
+              name: 'title',
+              content: 'Ifqy Gifha Azhar | Flutter Developer Portfolio',
+            ),
+            MetaTag(
+              name: 'description',
+              content:
+                  'Portfolio website of Ifqy Gifha Azhar - A passionate Flutter Developer specializing in mobile development. View my projects, skills and experience.',
+            ),
+            MetaTag(
+              name: 'keywords',
+              content:
+                  'flutter developer, mobile app development ifqy gifha azhar, portfolio, software engineer',
+            ),
+            MetaTag(name: 'author', content: 'Ifqy Gifha Azhar'),
+            MetaTag(name: 'robots', content: 'index, follow'),
+            MetaTag(
+              name: 'title',
+              content: 'Ifqy Gifha Azhar | Flutter Developer Portfolio',
+            ),
+            MetaTag(
+              name: 'description',
+              content:
+                  'Portfolio website of Ifqy Gifha Azhar - A passionate Flutter Developer specializing in mobile development.',
+            ),
+            MetaTag(name: 'type', content: 'website'),
+          ],
+          child: const MyHome(),
+        ),
+      ),
     );
   }
 }
