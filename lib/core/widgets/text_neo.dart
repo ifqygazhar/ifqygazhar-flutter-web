@@ -4,7 +4,7 @@ import 'package:ifqygazhar/core/style/colors.dart';
 
 class TextNeo extends StatelessWidget {
   final String text;
-  final double fontSize;
+  final double? fontSize;
   final FontWeight? fontWeight;
   final Color? color;
 
