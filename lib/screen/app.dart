@@ -9,7 +9,7 @@ class App extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final bool isMobile = width < 768;
+    final bool isMobile = width < 600;
 
     if (isMobile) {
       return MobileLayout(width: width, height: height, isMobile: isMobile);
